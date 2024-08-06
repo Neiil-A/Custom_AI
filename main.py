@@ -6,25 +6,18 @@ from tasks.content_generation_tasks import ContentGenerationTasks
 from agents.content_generation_agents import ContentGenerationAgents
 from tools.extraction_tools import ExtractionTools
 
-import os
-from dotenv import load_dotenv
-from crewai import Crew, Process
-from tasks.content_generation_tasks import ContentGenerationTasks
-from agents.content_generation_agents import ContentGenerationAgents
-from tools.extraction_tools import ExtractionTools
-
 def main():
     load_dotenv()
 
-    print("## Welcome to my Content Generation. Do not Use at your convenience, but edit to improve it if necessary.")
+    print("## Welcome to the Content Generation Crew")
     print('---------------------------------')
 
-    content_prompt = input("Please provide a prompt for the new writing content you would like to be generated, specifying type of content and any specific word count: \n")
+    content_prompt = input("Please provide a prompt for the new writing content you would like to be generated, specifying type of content (blogpost, LinkedIn post, etc.), and any specific word count if you would like: \n")
 
-    # Automatically fetch context and reference database
-    context_file = ExtractionTools.get_context_file(content_prompt)
-    reference_db = ExtractionTools.get_reference_db(content_prompt)
-
+    # Automatically handle context extraction and reference database inclusion
+    context_file = ExtractionTools.extract_context_from_web(content_prompt)
+    reference_db = ExtractionTools.generate_reference_db(content_prompt)
+    
     tasks = ContentGenerationTasks()
     agents = ContentGenerationAgents()
 
@@ -33,7 +26,7 @@ def main():
     researcher_agent = agents.researcher_agent()
     writer_agent = agents.writer_agent()
     humanizer_agent = agents.humanizer_agent()
-    darth_vader_agent = agents.darth_vader_agent()
+    reliability_agent = agents.reliability_agent()
     security_agent = agents.security_agent()
 
     extraction_task = tasks.extraction_task(extraction_agent, context_file, reference_db)
@@ -41,15 +34,14 @@ def main():
     research_task = tasks.research_task(researcher_agent, reference_db)
     writer_task = tasks.writer_task(writer_agent, reference_db)
     humanizer_task = tasks.humanizer_task(humanizer_agent, reference_db)
-    validate_sources_task = tasks.validate_sources_task(darth_vader_agent)
-    ensure_security_task = tasks.ensure_security_task(security_agent)
-  #man, ... this was supposed to be named Security, That's Tha Sound of Tha Police!
+    reliability_task = tasks.reliability_task(reliability_agent)
+    security_task = tasks.security_task(security_agent)
 
     research_task.context = [analyze_prompt_task]
     writer_task.context = [extraction_task, analyze_prompt_task, research_task]
     humanizer_task.context = [writer_task]
-    validate_sources_task.context = [research_task]
-    ensure_security_task.context = [validate_sources_task]
+    reliability_task.context = [research_task]
+    security_task.context = [humanizer_task]
 
     content_generation_crew = Crew(
         agents=[
@@ -58,7 +50,7 @@ def main():
             researcher_agent,
             writer_agent,
             humanizer_agent,
-            darth_vader_agent,
+            reliability_agent,
             security_agent
         ],
         tasks=[
@@ -67,8 +59,8 @@ def main():
             research_task,
             writer_task,
             humanizer_task,
-            validate_sources_task,
-            ensure_security_task
+            reliability_task,
+            security_task
         ],
         process=Process.parallel
     )
