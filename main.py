@@ -1,82 +1,34 @@
-# Somehow, I may have made a RAG begginer-level chatbot thingy...?
-# main.py
+import streamlit as st
+from agents import Agent
+from crew import CrewAI
+from environment import get_api_keys
 
-import os
-from dotenv import load_dotenv
+# Get API keys from the user
+serperdev_api_key, chatgpt_api_key = get_api_keys()
 
-# Ensure the install_path directory exists
-install_path = "/mount/admin/install_path"
-if not os.path.exists(install_path):
-    os.makedirs(install_path)
+# Create an agent
+agent = Agent(
+    name="Custom AI Agent",
+    description="I assist with various tasks.",
+    tasks=["Data extraction", "Data processing"],
+    goals=["Efficiency", "Accuracy"]
+)
 
-# Load environment variables from .env file
-load_dotenv(dotenv_path='.env')
+# Create CrewAI instance
+crew_ai = CrewAI(
+    task="data extraction",
+    background="I specialize in extracting and processing large datasets efficiently."
+)
 
-from tasks import ContentGenerationTasks
-from agents import ContentGenerationAgents
-from tools import ExtractionTools
-from crewAi import Crew, Process
+# Display agent info
+st.write(agent.introduce())
+st.write(agent.display_tasks())
+st.write(agent.display_goals())
 
-def main():
-    print("## Welcome to the Content Generation Crew")
-    print('---------------------------------')
-
-    content_prompt = input("Please provide a prompt for the new writing content you would like to be generated, specifying type of content (blogpost, LinkedIn post, etc.), and any specific word count if you would like: \n")
-
-    context_file = ExtractionTools.extract_context_from_web(content_prompt)
-    reference_db = ExtractionTools.generate_reference_db(content_prompt)
-
-    tasks = ContentGenerationTasks()
-    agents = ContentGenerationAgents()
-
-    extraction_agent = agents.extraction_agent()
-    prompt_analyst_agent = agents.prompt_analyst_agent()
-    researcher_agent = agents.researcher_agent()
-    writer_agent = agents.writer_agent()
-    humanizer_agent = agents.humanizer_agent()
-    reliability_agent = agents.reliability_agent()
-    security_agent = agents.security_agent()
-
-    extraction_task = tasks.extraction_task(extraction_agent, context_file, reference_db)
-    analyze_prompt_task = tasks.analyze_prompt_task(prompt_analyst_agent, content_prompt, reference_db)
-    research_task = tasks.research_task(researcher_agent, reference_db)
-    writer_task = tasks.writer_task(writer_agent, reference_db)
-    humanizer_task = tasks.humanizer_task(humanizer_agent, reference_db)
-    reliability_task = tasks.reliability_task(reliability_agent)
-    security_task = tasks.security_task(security_agent)
-
-    research_task.context = [analyze_prompt_task]
-    writer_task.context = [extraction_task, analyze_prompt_task, research_task]
-    humanizer_task.context = [writer_task]
-    reliability_task.context = [research_task]
-    security_task.context = [humanizer_task]
-
-    content_generation_crew = Crew(
-        agents=[
-            extraction_agent,
-            prompt_analyst_agent,
-            researcher_agent,
-            writer_agent,
-            humanizer_agent,
-            reliability_agent,
-            security_agent
-        ],
-        tasks=[
-            extraction_task,
-            analyze_prompt_task,
-            research_task,
-            writer_task,
-            humanizer_task,
-            reliability_task,
-            security_task
-        ],
-        process=Process.parallel  # Execute tasks in parallel
-    )
-
-    result = content_generation_crew.kickoff()
-    output = humanizer_task.output.raw
-
-    print(output)
-
-if __name__ == "__main__":
-    main()
+# Execute task and display result
+if st.button("Execute Task"):
+    try:
+        result = crew_ai.execute_task(agent, serperdev_api_key)
+        st.write(result)
+    except Exception as e:
+        st.error(str(e))
