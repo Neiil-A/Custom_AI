@@ -1,20 +1,20 @@
 # app.py
 import os
 
-# Ensure the install_path directory exists
-install_path = "/mount/admin/install_path"
+# Define the install path in a more portable way
+install_path = os.path.join(os.getcwd(), "install_path")
 if not os.path.exists(install_path):
     os.makedirs(install_path)
 
 # Load environment variables from .env file
 from dotenv import load_dotenv
-load_dotenv(dotenv_path='.env')
+load_dotenv(dotenv_path='API.env')
 
 import streamlit as st
 from tasks import ContentGenerationTasks
 from agents import ContentGenerationAgents
 from tools import ExtractionTools
-from crewAi import Crew, Process  # Assuming Crew and Process are defined in crewAi.py
+from CrewAi import Crew, Process  # Assuming Crew and Process are defined in CrewAi.py
 
 def main():
     st.title("Content Generation Crew")
