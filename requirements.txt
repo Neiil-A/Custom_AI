@@ -4,8 +4,6 @@ requests
 markdownify
 beautifulsoup4
 crewai-tools
-
-# requirements.txt
 streamlit
+requests
 python-dotenv
-# Add other dependencies your project needs
