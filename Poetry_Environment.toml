@@ -1,0 +1,23 @@
+curl -sSL https://install.python-poetry.org | python3 -
+# Installs Poetry if it isnt already present 
+
+[tool.poetry]
+name = "my_rag_chatbot"
+version = "0.1.0"
+description = "A sophisticated RAG chatbot using CrewAI with a Humanizer Agent"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+crewai = "*"
+textwrap3 = "*"
+requests = "*"
+markdownify = "*"
+beautifulsoup4 = "*"
+python-dotenv = "*"
+crewai-tools = "*"
+streamlit = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
