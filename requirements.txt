@@ -1,0 +1,11 @@
+crewai
+textwrap3
+requests
+markdownify
+beautifulsoup4
+crewai-tools
+
+# requirements.txt
+streamlit
+python-dotenv
+# Add other dependencies your project needs

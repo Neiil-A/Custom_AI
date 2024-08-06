@@ -1,8 +1,0 @@
-crewai
-textwrap3
-requests
-markdownify
-beautifulsoup4
-python-dotenv
-crewai-tools
-streamlit
