@@ -3,6 +3,13 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+# Define the content of the setup_and_run.sh script
+cat << 'EOF' > setup_and_run.sh
+#!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 echo "Creating and activating virtual environment..."
 
 # Check if the virtual environment already exists
@@ -49,3 +56,11 @@ done
 echo "Setup complete. Starting Streamlit app..."
 # Run the Streamlit app
 streamlit run streamlit_app.py
+EOF
+
+# Make the setup_and_run.sh script executable
+chmod +x setup_and_run.sh
+
+# Run the setup_and_run.sh script
+./setup_and_run.sh
+
