@@ -28,3 +28,4 @@ class ContentGenerationTasks:
     def security_task(self, agent):
         # Implementation of security task
         pass
+
