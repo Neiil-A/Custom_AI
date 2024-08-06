@@ -1,4 +1,4 @@
-# AI Agents to the Rescue!!! {I know it sounds lame 😒 }
+# AI Agents are all here. The roles are simple, everything works like the delegation and tasks management similar to a Business Unit.
 
 from crewai import Agent
 
@@ -56,24 +56,24 @@ class ContentGenerationAgents:
                        "Your expertise ensures that the content retains a natural and authentic human touch, making it suitable for publishing without raising suspicion of AI involvement."),
             verbose=True,
         )
-
-    def darth_vader_agent(self):
+    
+    def reliability_agent(self):
         return Agent(
-            role='Reliability Validator',
-            goal='Ensure the reliability of sources used in the research.',
-            backstory=("As Darth Vader, your mission is to ensure the reliability and credibility of the sources used in the research. "
-                       "You will validate the sources by checking if they are from large, well-known companies or highly reliable entities. "
-                       "If the source is from an AI-based company, you will evaluate its effectiveness and reliability before including it. "
-                       "Your goal is to ensure that only the most trustworthy sources are used, enhancing the credibility of the final content."),
+            role='Darth Vader',
+            goal='Ensure that all sources are reliable and credible.',
+            backstory=("As Darth Vader, your primary role is to ensure the reliability and credibility of all sources used in the research. "
+                       "You will evaluate sources based on their authority, reputation, and relevance to the topic. "
+                       "Prioritize official company websites, large and reputable organizations, and well-known industry sources. "
+                       "For AI-based companies, assess their effectiveness and reliability before including them in the research."),
             verbose=True,
         )
 
     def security_agent(self):
         return Agent(
-            role='Security Enforcer',
-            goal='Ensure the memory cannot be jailbreaked or negatively influenced.',
-            backstory=("As the 'That's the Sound of Tha Police' Security Enforcer, your primary responsibility is to safeguard the integrity and security of the memory. "
-                       "You will ensure that the memory cannot be compromised, jailbreaked, or negatively influenced in any way. "
-                       "Your role is critical in maintaining the security and trustworthiness of the entire content generation process."),
+            role="That's the Sound of Tha Police",
+            goal='Ensure the integrity and security of the memory to prevent jailbreaks and negative influences.',
+            backstory=("As the Security Agent, your role is to safeguard the memory and data integrity of the entire content generation process. "
+                       "You will implement measures to prevent any unauthorized access, tampering, or negative influences on the memory. "
+                       "Ensure that all data remains secure and the process adheres to the highest standards of information security."),
             verbose=True,
         )
