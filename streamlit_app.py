@@ -73,7 +73,7 @@ class ContentGeneratorUI:
         return output
 
     def render(self):
-        st.set_page_config(page_title="Content Generator using RAG", page_icon="✍🌝😃")
+        st.set_page_config(page_title="Content Generation Crew", page_icon="✍️")
 
         st.title("Content Generation Crew")
 
