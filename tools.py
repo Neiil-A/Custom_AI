@@ -1,12 +1,6 @@
-# tools.py
+def tool_function():
+    return "Tool function executed."
 
-class ExtractionTools:
-    @staticmethod
-    def extract_context_from_web(content_prompt):
-        # Implementation for extracting context from the web
-        return "context_file"
-
-    @staticmethod
-    def generate_reference_db(content_prompt):
-        # Implementation for generating reference database
-        return "reference_db"
+# Example usage
+if __name__ == "__main__":
+    print(tool_function())
