@@ -1,5 +1,4 @@
-# Ignore the virtual environment directory
-venv/
-__pycache__/
+# .gitignore
 *.pyc
-*.env
+__pycache__/
+.env
