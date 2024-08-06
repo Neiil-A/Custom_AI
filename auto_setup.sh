@@ -1,66 +1,21 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-set -e
+# Create virtual environment
+python3 -m venv venv
 
-# Define the content of the setup_and_run.sh script
-cat << 'EOF' > setup_and_run.sh
-#!/bin/bash
-
-# Exit immediately if a command exits with a non-zero status
-set -e
-
-echo "Creating and activating virtual environment..."
-
-# Check if the virtual environment already exists
-if [ ! -d "venv" ]; then
-  python3 -m venv venv
-  echo "Virtual environment created."
-else
-  echo "Virtual environment already exists."
-fi
-
-# Activate the virtual environment
+# Activate virtual environment for a MAC OS, change if you use Windows 
 source venv/bin/activate
-echo "Virtual environment activated."
 
-# Install dependencies
-echo "Installing dependencies from requirements.txt..."
+# Install required packages
 pip install -r requirements.txt
-echo "Dependencies installed."
 
-# Check directory structure
-echo "Checking directory structure..."
-directories=( "agents" "data" "models" "tools" "tasks" )
+# Load environment variables
+export $(grep -v '^#' API.env | xargs)
 
-for dir in "${directories[@]}"; do
-  if [ ! -d "$dir" ]; then 
-    echo "Directory $dir does not exist. Creating it..."
-    mkdir -p "$dir"
-  else
-    echo "Directory $dir exists."
-  fi
-done
+export GITHUB_CLIENT_ID='your_client_id_here'
+export GITHUB_CLIENT_SECRET='your_client_secret_here'
+export GITHUB_AUTH0_DOMAIN='your_auth0_domain_here'
+export GITHUB_CALLBACK_URL='your_callback_url_here'
 
-# Create __init__.py files if not present
-echo "Creating __init__.py files..."
-for dir in "${directories[@]}"; do
-  if [ ! -f "$dir/__init__.py" ]; then
-    touch "$dir/__init__.py"
-    echo "__init__.py created in $dir"
-  else
-    echo "__init__.py already exists in $dir"
-  fi
-done
-
-echo "Setup complete. Starting Streamlit app..."
-# Run the Streamlit app
-streamlit run streamlit_app.py
-EOF
-
-# Make the setup_and_run.sh script executable
-chmod +x setup_and_run.sh
-
-# Run the setup_and_run.sh script
-./setup_and_run.sh
-
+# Run the app
+streamlit run app.py
