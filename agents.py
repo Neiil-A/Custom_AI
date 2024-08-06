@@ -1,33 +1,33 @@
-# AI Agents are all here. The roles are simple, everything works like the delegation and tasks management similar to a Business Unit.
-# agents.py
+class Agent:
+    def __init__(self, name, description, tasks, goals):
+        self.name = name
+        self.description = description
+        self.tasks = tasks
+        self.goals = goals
+        self.api_calls = 0
 
-class ContentGenerationAgents:
-    def extraction_agent(self):
-        # Implementation of extraction agent
-        pass
+    def introduce(self):
+        return f"Hello, I am {self.name}. {self.description}"
 
-    def prompt_analyst_agent(self):
-        # Implementation of prompt analyst agent
-        pass
+    def display_tasks(self):
+        return f"My tasks include: {', '.join(self.tasks)}."
 
-    def researcher_agent(self):
-        # Implementation of researcher agent
-        pass
+    def display_goals(self):
+        return f"My goals are: {', '.join(self.goals)}."
 
-    def writer_agent(self):
-        # Implementation of writer agent
-        pass
+    def increment_api_calls(self):
+        self.api_calls += 1
+        if self.api_calls > 10:
+            raise Exception(f"{self.name} has exceeded the API call limit.")
 
-    def humanizer_agent(self):
-        # Implementation of humanizer agent
-        pass
-
-    def reliability_agent(self):
-        # Implementation of reliability agent
-        pass
-
-    def security_agent(self):
-        # Implementation of security agent
-        pass
-
-
+# Example usage
+if __name__ == "__main__":
+    agent = Agent(
+        name="Custom AI Agent",
+        description="I am designed to assist with data extraction and processing.",
+        tasks=["Extract data from web", "Process extracted data", "Provide insights"],
+        goals=["Improve data accuracy", "Enhance processing speed", "Increase user satisfaction"]
+    )
+    print(agent.introduce())
+    print(agent.display_tasks())
+    print(agent.display_goals())
