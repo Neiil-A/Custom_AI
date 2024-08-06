@@ -27,7 +27,7 @@ echo "Checking directory structure..."
 directories=( "agents" "data" "models" "tools" "tasks" )
 
 for dir in "${directories[@]}"; do
-  if [ ! -d "$dir" ]; then
+  if [ ! -d "$dir" ]; then 
     echo "Directory $dir does not exist. Creating it..."
     mkdir -p "$dir"
   else
@@ -38,4 +38,14 @@ done
 # Create __init__.py files if not present
 echo "Creating __init__.py files..."
 for dir in "${directories[@]}"; do
-  if [ ! -f "$dir/__init_
+  if [ ! -f "$dir/__init__.py" ]; then
+    touch "$dir/__init__.py"
+    echo "__init__.py created in $dir"
+  else
+    echo "__init__.py already exists in $dir"
+  fi
+done
+
+echo "Setup complete. Starting Streamlit app..."
+# Run the Streamlit app
+streamlit run streamlit_app.py
