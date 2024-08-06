@@ -1,4 +1,4 @@
-# crewAi.py
+# CrewAi.py
 
 class Crew:
     def __init__(self, agents, tasks, process):
@@ -12,7 +12,8 @@ class Crew:
 
 class Process:
     parallel = "parallel"
-    # Implementation of Process class
+    sequential = "sequential"
+    hierarchical = "hierarchical"
 
 
    
