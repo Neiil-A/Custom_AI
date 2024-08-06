@@ -38,12 +38,4 @@ done
 # Create __init__.py files if not present
 echo "Creating __init__.py files..."
 for dir in "${directories[@]}"; do
-  if [ ! -f "$dir/__init__.py" ]; then
-    touch "$dir/__init__.py"
-    echo "__init__.py created in $dir"
-  else
-    echo "__init__.py already exists in $dir"
-  fi
-done
-
-echo "Setup complete. You can now run the application."
+  if [ ! -f "$dir/__init_
