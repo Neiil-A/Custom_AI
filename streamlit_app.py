@@ -1,4 +1,14 @@
 import os
+
+# Ensure the install_path directory exists
+install_path = "/mount/admin/install_path"
+if not os.path.exists(install_path):
+    os.makedirs(install_path)
+
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv(dotenv_path='/path/to/your/.env')
+
 import streamlit as st
 from crewai import Crew, Process
 from tasks.content_generation_tasks import ContentGenerationTasks
