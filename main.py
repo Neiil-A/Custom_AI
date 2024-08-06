@@ -1,14 +1,22 @@
 # Somehow, I may have made a RAG begginer-level chatbot thingy...?
+# Somehow, I may have made a RAG beginner-level chatbot thingy...?
 import os
 from dotenv import load_dotenv
 from tasks.content_generation_tasks import ContentGenerationTasks
 from agents.content_generation_agents import ContentGenerationAgents
 from tools.extraction_tools import ExtractionTools
+from crew import Crew, Process  # Assuming Crew and Process are defined in a module named 'crew'
+
+# Ensure the install_path directory exists
+install_path = "/mount/admin/install_path"
+if not os.path.exists(install_path):
+    os.makedirs(install_path)
+
+# Load environment variables from .env file
+load_dotenv(dotenv_path='/path/to/your/.env')
 
 def main():
-    # Load environment variables from a .env file
-    load_dotenv()
-
+    # Print a welcome message
     print("## Welcome to the Content Generation Crew")
     print('---------------------------------')
 
@@ -18,7 +26,7 @@ def main():
     # Automatically handle context extraction and reference database inclusion
     context_file = ExtractionTools.extract_context_from_web(content_prompt)
     reference_db = ExtractionTools.generate_reference_db(content_prompt)
-    
+
     # Initialize tasks and agents
     tasks = ContentGenerationTasks()
     agents = ContentGenerationAgents()
